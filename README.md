@@ -3,6 +3,7 @@
 Hello, Fetch! Contained herein is my receipt processor API.
 
 If you're pressed for time and just want to check the API's functionality, look at the instructions below.
+
 If you have more time and want to dive into the architecture, please see [my thoughts](./ARCHITECTURE.md).
 
 ## Usage
