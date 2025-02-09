@@ -3,7 +3,7 @@ from fastapi import APIRouter, FastAPI
 from pydantic import BaseModel
 from src.apps.receipt_app import ReceiptApp
 from src.handlers.handler import Handler
-from src.types.receipt import ReceiptNoIDs
+from src.types.receipt import Receipt
 
 
 class ReceiptResponse(BaseModel):
@@ -20,13 +20,11 @@ class ReceiptHandler(Handler):
         self._router = APIRouter(prefix="/receipts", tags=["receipts"])
 
     def register(self, *, api: FastAPI) -> None:
-        (
-            self._router.add_api_route(
-                path="/process",
-                endpoint=self.process_receipt,
-                response_model=ReceiptResponse,
-                methods=["POST"],
-            ),
+        self._router.add_api_route(
+            path="/process",
+            endpoint=self.process_receipt,
+            response_model=ReceiptResponse,
+            methods=["POST"],
         )
         self._router.add_api_route(
             path="/{receipt_id}/points",
@@ -37,7 +35,7 @@ class ReceiptHandler(Handler):
 
         api.include_router(router=self._router)
 
-    def process_receipt(self, receipt: ReceiptNoIDs) -> ReceiptResponse:
+    def process_receipt(self, receipt: Receipt) -> ReceiptResponse:
         receipt_with_ids = self._app.add_receipt(receipt=receipt)
         return ReceiptResponse(id=receipt_with_ids.id)
 

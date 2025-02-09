@@ -2,10 +2,10 @@ import uuid
 from pydantic import BaseModel, Field
 
 
-class ItemNoID(BaseModel):
+class Item(BaseModel):
     short_description: str = Field(..., alias="shortDescription")
     price: float
 
 
-class ItemWithID(ItemNoID):
+class ItemWithID(Item):
     id: uuid.UUID

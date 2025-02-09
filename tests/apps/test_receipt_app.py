@@ -5,7 +5,7 @@ from unittest import mock
 from src.apps.receipt_app import ReceiptApp
 from src.providers.receipt_provider import ReceiptProvider
 from src.types.item import ItemWithID
-from src.types.receipt import ReceiptNoIDs, ReceiptWithIDs
+from src.types.receipt import Receipt, ReceiptWithIDs
 
 
 @pytest.fixture
@@ -105,7 +105,7 @@ def test_calculate_points(
 
 def test_add_receipt(receipt_app: ReceiptApp, mock_receipt_provider: mock.Mock):
     # Arrange
-    receipt = ReceiptNoIDs(
+    receipt = Receipt(
         retailer="Dunder Mifflin",
         purchaseDate="2022-01-01",
         purchaseTime="13:01",

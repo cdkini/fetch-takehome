@@ -5,15 +5,15 @@ import uuid
 from typing_extensions import Self
 from pydantic import BaseModel, Field, field_validator, model_validator
 
-from src.types.item import ItemNoID, ItemWithID
+from src.types.item import Item
 
 
-class ReceiptNoIDs(BaseModel):
+class Receipt(BaseModel):
     retailer: str
     purchase_date: dt.datetime = Field(..., alias="purchaseDate")
     purchase_time: str = Field(..., alias="purchaseTime")
     total: float
-    items: List[ItemNoID]
+    items: List[Item]
 
     @field_validator("purchase_time")
     def check_purchase_time_format(cls, value: str) -> str:
@@ -37,6 +37,6 @@ class ReceiptNoIDs(BaseModel):
         return self
 
 
-class ReceiptWithIDs(ReceiptNoIDs):
+class ReceiptWithIDs(Receipt):
     id: uuid.UUID
-    items: List[ItemWithID]
+    items: List[Item]

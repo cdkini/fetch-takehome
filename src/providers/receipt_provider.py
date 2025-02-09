@@ -2,7 +2,8 @@ import uuid
 from sqlalchemy.orm import scoped_session
 
 from src.types.item import ItemWithID
-from src.types.receipt import ReceiptNoIDs, ReceiptWithIDs
+from src.types.receipt import Receipt as ReceiptNoIDs
+from src.types.receipt import ReceiptWithIDs
 from src.models.receipt import Receipt as DBReceipt
 from src.models.item import Item as DBItem
 

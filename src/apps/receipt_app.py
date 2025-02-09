@@ -1,14 +1,14 @@
 import math
 import uuid
 from src.providers.receipt_provider import ReceiptProvider
-from src.types.receipt import ReceiptNoIDs, ReceiptWithIDs
+from src.types.receipt import Receipt, ReceiptWithIDs
 
 
 class ReceiptApp:
     def __init__(self, receipt_provider: ReceiptProvider) -> None:
         self._receipt_provider = receipt_provider
 
-    def add_receipt(self, receipt: ReceiptNoIDs) -> ReceiptWithIDs:
+    def add_receipt(self, receipt: Receipt) -> ReceiptWithIDs:
         return self._receipt_provider.add_receipt(receipt=receipt)
 
     def get_receipt(self, receipt_id: uuid.UUID) -> ReceiptWithIDs:
@@ -35,7 +35,8 @@ class ReceiptApp:
         # 5 points for every two items on the receipt.
         points += len(receipt.items) // 2 * 5
 
-        # If the trimmed length of the item description is a multiple of 3, multiply the price by 0.2 and round up to the nearest integer. The result is the number of points earned.
+        # If the trimmed length of the item description is a multiple of 3, multiply the price by 0.2 and round up to the nearest integer.
+        # The result is the number of points earned.
         for item in receipt.items:
             if len(item.short_description.strip()) % 3 == 0:
                 points += math.ceil(item.price * 0.2 + 0.5)
