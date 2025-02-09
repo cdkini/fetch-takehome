@@ -12,8 +12,6 @@ For ease of use, all functionality has been encapsulated in a Makefile.
 
 You'll need either Docker OR Python >=3.9 to run the service. 
 
-## Getting Started
-
 ### Docker
 
 If you're using Docker, you can simply build the image and spin up a container with the service:
