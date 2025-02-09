@@ -6,7 +6,7 @@ deps: ## Install dependencies
 	. .venv/bin/activate; pip check;
 
 start: ## Start service
-	. .venv/bin/activate; fastapi dev src/api.py 
+	. .venv/bin/activate; python src/api.py 
 
 fmt: ## Format code 
 	. .venv/bin/activate; ruff check --fix .

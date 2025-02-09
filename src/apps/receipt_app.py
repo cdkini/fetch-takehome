@@ -2,7 +2,7 @@ import math
 import uuid
 from src.exceptions import AppError, ProviderError
 from src.providers.receipt_provider import ReceiptProvider
-from src.types.receipt import Receipt, ReceiptWithIDs
+from src.domain.receipt import Receipt, ReceiptWithIDs
 
 
 class ReceiptApp:

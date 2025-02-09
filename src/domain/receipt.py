@@ -5,7 +5,7 @@ import uuid
 from typing_extensions import Self
 from pydantic import BaseModel, Field, field_validator, model_validator
 
-from src.types.item import Item
+from src.domain.item import Item
 
 
 class Receipt(BaseModel):

@@ -4,7 +4,7 @@ from pydantic import BaseModel
 from src.apps.receipt_app import ReceiptApp
 from src.exceptions import AppError
 from src.handlers.handler import Handler
-from src.types.receipt import Receipt
+from src.domain.receipt import Receipt
 
 
 class ReceiptResponse(BaseModel):

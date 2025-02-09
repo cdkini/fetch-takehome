@@ -9,8 +9,8 @@ from src.db import init_db
 
 
 class APIConfig(BaseModel):
-    connection_string: str
-    engine_kwargs: dict = {}
+    connection_string: str = "sqlite:///data.db"
+    engine_kwargs: dict = {"echo": True}
     app_host: str = "0.0.0.0"
     app_port: int = 8000
 
@@ -32,16 +32,15 @@ class API:
         receipt_service.register(api=self._app)
 
 
-# Setup
-config = APIConfig(connection_string="sqlite:///test.db", engine_kwargs={"echo": True})
-api = API(config=config)
-api.init_services()
-app = api.app
+def get_app(config: APIConfig = APIConfig()) -> FastAPI:
+    api = API(config=config)
+    api.init_services()
+    return api.app
 
 
 if __name__ == "__main__":
     uvicorn.run(
-        app="src.api:app",
+        app="src.api:get_app",
         host="0.0.0.0",
         port=8000,
         reload=True,

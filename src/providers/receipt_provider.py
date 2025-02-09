@@ -3,9 +3,9 @@ from sqlalchemy.orm import scoped_session
 
 from sqlalchemy.exc import NoResultFound
 from src.exceptions import ProviderError
-from src.types.item import ItemWithID
-from src.types.receipt import Receipt as ReceiptNoIDs
-from src.types.receipt import ReceiptWithIDs
+from src.domain.item import ItemWithID
+from src.domain.receipt import Receipt as ReceiptNoIDs
+from src.domain.receipt import ReceiptWithIDs
 from src.models.receipt import Receipt as DBReceipt
 from src.models.item import Item as DBItem
 
@@ -41,7 +41,7 @@ class ReceiptProvider:
             self._session.rollback()
             raise ProviderError("Failed to add receipt to the database.") from e
 
-        return self.to_adm(db_item)
+        return self._to_adm(db_item)
 
     def get_by_id(self, receipt_id: uuid.UUID) -> ReceiptWithIDs:
         try:
@@ -51,10 +51,10 @@ class ReceiptProvider:
         except NoResultFound as e:
             raise ProviderError("Receipt not found.") from e
 
-        return self.to_adm(db_receipt)
+        return self._to_adm(db_receipt)
 
     @staticmethod
-    def to_adm(db_receipt: DBReceipt) -> ReceiptWithIDs:
+    def _to_adm(db_receipt: DBReceipt) -> ReceiptWithIDs:
         return ReceiptWithIDs(
             id=db_receipt.id,
             retailer=db_receipt.retailer,
