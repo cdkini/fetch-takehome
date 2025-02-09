@@ -17,9 +17,9 @@ class Receipt(db.Base, TimestampsMixin):
 
     retailer: MappedColumn[str]
     purchase_date: MappedColumn[dt.datetime]
-    purchase_time: MappedColumn[dt.time]
+    purchase_time: MappedColumn[str]
     total: MappedColumn[float]
 
-    items: Mapped[List["Item"]] = relationship(
-         back_populates="receipt",
-     )
+    items: Mapped[List["Item"]] = relationship(  # noqa: F821
+        back_populates="receipt",
+    )
