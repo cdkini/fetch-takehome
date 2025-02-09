@@ -13,13 +13,13 @@ class ReceiptApp:
         try:
             return self._receipt_provider.add_receipt(receipt=receipt)
         except ProviderError as e:
-            raise AppError("Failed to add receipt.") from e
+            raise AppError(err="generic") from e
 
     def get_receipt(self, receipt_id: uuid.UUID) -> ReceiptWithIDs:
         try:
             return self._receipt_provider.get_by_id(receipt_id=receipt_id)
         except ProviderError as e:
-            raise AppError(f"Failed to retrieve receipt with id {receipt_id}.") from e
+            raise AppError(err="not_found") from e
 
     def calculate_receipt_points(self, receipt_id: uuid.UUID) -> int:
         receipt = self.get_receipt(receipt_id=receipt_id)

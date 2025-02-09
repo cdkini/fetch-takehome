@@ -40,17 +40,23 @@ class ReceiptHandler(Handler):
         try:
             receipt_with_ids = self._app.add_receipt(receipt=receipt)
         except AppError:
-            raise HTTPException(status_code=400, detail="Failed to process receipt.")
+            raise HTTPException(status_code=400, detail="The receipt is invalid.")
 
         return ReceiptResponse(id=receipt_with_ids.id)
 
     def get_receipt_points(self, receipt_id: uuid.UUID) -> PointsResponse:
         try:
             points = self._app.calculate_receipt_points(receipt_id=receipt_id)
-        except AppError:
-            raise HTTPException(
-                status_code=400,
-                detail="Error retrieving receipt and calculating points.",
-            )
+        except AppError as e:
+            if e.err == "not_found":
+                raise HTTPException(
+                    status_code=404,
+                    detail="Receipt not found.",
+                )
+            else:
+                raise HTTPException(
+                    status_code=400,
+                    detail="Something went wrong when retrieving the receipt points.",
+                )
 
         return PointsResponse(points=points)

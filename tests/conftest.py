@@ -1,5 +1,6 @@
 from typing import Generator
 import uuid
+from fastapi import FastAPI
 from fastapi.testclient import TestClient
 import pathlib
 import pytest
@@ -14,15 +15,18 @@ def db_path() -> pathlib.Path:
 
 
 @pytest.fixture
-def client(db_path: pathlib.Path) -> Generator[TestClient, None, None]:
+def app(db_path: pathlib.Path) -> Generator[FastAPI, None, None]:
     from src.api import get_app, APIConfig
 
     config = APIConfig(connection_string=f"sqlite:///{db_path}")
-    app = get_app(config=config)
-
-    yield TestClient(app)
+    yield get_app(config=config)
 
     db_path.unlink(missing_ok=True)
+
+
+@pytest.fixture
+def client(app: FastAPI) -> Generator[TestClient, None, None]:
+    return TestClient(app)
 
 
 @pytest.fixture
