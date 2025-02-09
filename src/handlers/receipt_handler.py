@@ -1,7 +1,8 @@
 import uuid
-from fastapi import APIRouter, FastAPI
+from fastapi import APIRouter, FastAPI, HTTPException
 from pydantic import BaseModel
 from src.apps.receipt_app import ReceiptApp
+from src.exceptions import AppError
 from src.handlers.handler import Handler
 from src.types.receipt import Receipt
 
@@ -36,9 +37,20 @@ class ReceiptHandler(Handler):
         api.include_router(router=self._router)
 
     def process_receipt(self, receipt: Receipt) -> ReceiptResponse:
-        receipt_with_ids = self._app.add_receipt(receipt=receipt)
+        try:
+            receipt_with_ids = self._app.add_receipt(receipt=receipt)
+        except AppError:
+            raise HTTPException(status_code=400, detail="Failed to process receipt.")
+
         return ReceiptResponse(id=receipt_with_ids.id)
 
     def get_receipt_points(self, receipt_id: uuid.UUID) -> PointsResponse:
-        points = self._app.calculate_receipt_points(receipt_id=receipt_id)
+        try:
+            points = self._app.calculate_receipt_points(receipt_id=receipt_id)
+        except AppError:
+            raise HTTPException(
+                status_code=400,
+                detail="Error retrieving receipt and calculating points.",
+            )
+
         return PointsResponse(points=points)

@@ -1,5 +1,6 @@
 import math
 import uuid
+from src.exceptions import AppError, ProviderError
 from src.providers.receipt_provider import ReceiptProvider
 from src.types.receipt import Receipt, ReceiptWithIDs
 
@@ -9,10 +10,16 @@ class ReceiptApp:
         self._receipt_provider = receipt_provider
 
     def add_receipt(self, receipt: Receipt) -> ReceiptWithIDs:
-        return self._receipt_provider.add_receipt(receipt=receipt)
+        try:
+            return self._receipt_provider.add_receipt(receipt=receipt)
+        except ProviderError as e:
+            raise AppError("Failed to add receipt.") from e
 
     def get_receipt(self, receipt_id: uuid.UUID) -> ReceiptWithIDs:
-        return self._receipt_provider.get_by_id(receipt_id=receipt_id)
+        try:
+            return self._receipt_provider.get_by_id(receipt_id=receipt_id)
+        except ProviderError as e:
+            raise AppError(f"Failed to retrieve receipt with id {receipt_id}.") from e
 
     def calculate_receipt_points(self, receipt_id: uuid.UUID) -> int:
         receipt = self.get_receipt(receipt_id=receipt_id)

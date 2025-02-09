@@ -1,6 +1,8 @@
 import uuid
 from sqlalchemy.orm import scoped_session
 
+from sqlalchemy.exc import NoResultFound
+from src.exceptions import ProviderError
 from src.types.item import ItemWithID
 from src.types.receipt import Receipt as ReceiptNoIDs
 from src.types.receipt import ReceiptWithIDs
@@ -31,16 +33,24 @@ class ReceiptProvider:
             ],
         )
 
-        with self._session() as session:
-            session.add(db_item)
-            session.commit()
+        try:
+            with self._session() as session:
+                session.add(db_item)
+                session.commit()
+        except Exception as e:
+            self._session.rollback()
+            raise ProviderError("Failed to add receipt to the database.") from e
 
         return self.to_adm(db_item)
 
     def get_by_id(self, receipt_id: uuid.UUID) -> ReceiptWithIDs:
-        db_receipt = (
-            self._session.query(DBReceipt).filter(DBReceipt.id == receipt_id).one()
-        )
+        try:
+            db_receipt = (
+                self._session.query(DBReceipt).filter(DBReceipt.id == receipt_id).one()
+            )
+        except NoResultFound as e:
+            raise ProviderError("Receipt not found.") from e
+
         return self.to_adm(db_receipt)
 
     @staticmethod
