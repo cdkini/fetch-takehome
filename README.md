@@ -6,6 +6,14 @@ If you're pressed for time and just want to check the API's functionality, look 
 
 If you have more time and want to dive into the architecture and some additional thoughts, please look at the end of this file. 
 
+## Table of Contents
+
+- [Usage](#usage)
+   * [Docker](#docker)
+   * [Local Development](#local-development)
+- [Architecture](#architecture)
+- [Next Steps ](#next-steps)
+
 ## Usage
 
 For ease of use, all functionality has been encapsulated in a Makefile.
@@ -52,6 +60,8 @@ The primary components are as follows:
     - Responsible for routing and acting as the entry and exit point for all requests. This takes the form of a REST router in this API.
 - Services
     - Instantiates all other components (providers, apps, and handlers) and uses dependency injection to set up the API. 
+
+Each discrete section of our domain will have its own set of these components (just receipts for now).
 
 ## Next Steps 
 
