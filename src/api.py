@@ -42,6 +42,15 @@ class API:
 
 
 def get_app(config: APIConfig = APIConfig()) -> FastAPI:
+    """
+    The entrypoint for the service.
+
+    Args:
+        config (APIConfig): The configuration for the API.
+
+    Returns:
+        The actual API instance.
+    """
     api = API(config=config)
     api.init_services()
     return api.app
