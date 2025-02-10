@@ -16,6 +16,7 @@ You'll need either Docker OR Python >=3.9 to run the service.
 
 If you're using Docker, you can simply build the image and spin up a container with the service:
 ```bash
+# Will spin up on http://0.0.0.0:8000/
 make docker-build
 make docker-start
 ```

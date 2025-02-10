@@ -8,6 +8,12 @@ deps: ## Install dependencies
 start: ## Start service
 	. .venv/bin/activate; python src/api.py 
 
+docker-build: ## Build image of service 
+	docker build -t receipt-processor .
+
+docker-start: ## Run containerized service
+	docker run -p 8000:8000 receipt-processor 
+
 fmt: ## Format code 
 	. .venv/bin/activate; ruff check --fix .
 	. .venv/bin/activate; ruff format .
