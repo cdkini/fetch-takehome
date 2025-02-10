@@ -6,7 +6,7 @@ The primary components are as follows:
 - Providers
     - Responsible for storing and retrieving domain objects (data access layer).
 - Apps
-    - Encapsulates core business logic and uses one or more Providers to deal with object CRUD (business logic layer).
+    - Encapsulates core business logic and uses one or more providers to deal with object CRUD (business logic layer).
 - Handlers
     - Responsible for routing and acting as the entry and exit point for all requests. This takes the form of a REST router in this API.
 - Services
