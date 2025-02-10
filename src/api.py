@@ -9,8 +9,8 @@ from src.db import init_db
 
 
 class APIConfig(BaseModel):
-    connection_string: str = "sqlite:///data.db"
-    engine_kwargs: dict = {"echo": True}
+    connection_string: str = "sqlite://"
+    engine_kwargs: dict = {"echo": True, "connect_args": {"check_same_thread": False}}
     app_host: str = "0.0.0.0"
     app_port: int = 8000
 

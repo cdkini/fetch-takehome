@@ -2,31 +2,21 @@ from typing import Generator
 import uuid
 from fastapi import FastAPI
 from fastapi.testclient import TestClient
-import pathlib
 import pytest
 
 from src.domain.item import Item, ItemWithID
 from src.domain.receipt import Receipt, ReceiptWithIDs
+from src.api import get_app
 
 
 @pytest.fixture
-def db_path() -> pathlib.Path:
-    return pathlib.Path("test.db")
-
-
-@pytest.fixture
-def app(db_path: pathlib.Path) -> Generator[FastAPI, None, None]:
-    from src.api import get_app, APIConfig
-
-    config = APIConfig(connection_string=f"sqlite:///{db_path}")
-    yield get_app(config=config)
-
-    db_path.unlink(missing_ok=True)
+def app() -> Generator[FastAPI, None, None]:
+    yield get_app()
 
 
 @pytest.fixture
 def client(app: FastAPI) -> Generator[TestClient, None, None]:
-    return TestClient(app)
+    yield TestClient(app)
 
 
 @pytest.fixture
