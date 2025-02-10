@@ -2,9 +2,9 @@
 
 Hello, Fetch! Contained herein is my receipt processor API.
 
-If you're pressed for time and just want to check the API's functionality, look at the instructions below.
+If you're pressed for time and just want to check the API's functionality, look at the Docker instructions below.
 
-If you have more time and want to dive into the architecture, please see the architecture notes at the end of this README. 
+If you have more time and want to dive into the architecture and some additional thoughts, please look at the end of this file. 
 
 ## Usage
 
@@ -17,7 +17,7 @@ You'll need either Docker OR Python >=3.9 to run the service.
 If you're using Docker, you can simply build the image and spin up a container with the service:
 ```bash
 # Will spin up on http://0.0.0.0:8000/
-# Docs can be found at /docs
+# OpenAPI docs can be found at /docs
 make docker-build
 make docker-start
 ```
