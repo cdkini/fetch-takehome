@@ -45,7 +45,7 @@ I've designed this API to adhere to Clean Architecture practices as best as poss
 
 The primary components are as follows:
 - Providers
-    - Responsible for storing and retrieving domain objects (data access layer).
+    - Responsible for storing and retrieving domain objects (data access layer) - we use a SQLite DB here but any relational database will work.
 - Apps
     - Encapsulates core business logic and uses one or more providers to deal with object CRUD (business logic layer).
 - Handlers
