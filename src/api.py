@@ -17,7 +17,7 @@ class APIConfig(BaseModel):
 
 class API:
     def __init__(self, config: APIConfig):
-        self._app = FastAPI()
+        self._app = self.init_app()
         self._session = init_db(
             connection_string=config.connection_string,
             engine_kwargs=config.engine_kwargs,
@@ -26,6 +26,15 @@ class API:
     @property
     def app(self):
         return self._app
+
+    def init_app(self):
+        app = FastAPI()
+
+        @app.get("/")
+        def root():
+            return {"message": "Hello, Fetch!"}
+
+        return app
 
     def init_services(self):
         receipt_service = ReceiptService(session=self._session)

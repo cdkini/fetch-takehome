@@ -4,7 +4,7 @@ Hello, Fetch! Contained herein is my receipt processor API.
 
 If you're pressed for time and just want to check the API's functionality, look at the instructions below.
 
-If you have more time and want to dive into the architecture, please see [my thoughts](./ARCHITECTURE.md).
+If you have more time and want to dive into the architecture, please see the architecture notes at the end of this README. 
 
 ## Usage
 
@@ -17,6 +17,7 @@ You'll need either Docker OR Python >=3.9 to run the service.
 If you're using Docker, you can simply build the image and spin up a container with the service:
 ```bash
 # Will spin up on http://0.0.0.0:8000/
+# Docs can be found at /docs
 make docker-build
 make docker-start
 ```
@@ -37,3 +38,25 @@ make fmt   # Format code (ruff)
 make lint  # Lint code (mypy)
 make test  # Run test suite
 ```
+
+## Architecture
+
+I've designed this API to adhere to Clean Architecture practices as best as possible. This should keep the code reasonably decoupled, maintainable, and open for easy extension.
+
+The primary components are as follows:
+- Providers
+    - Responsible for storing and retrieving domain objects (data access layer).
+- Apps
+    - Encapsulates core business logic and uses one or more providers to deal with object CRUD (business logic layer).
+- Handlers
+    - Responsible for routing and acting as the entry and exit point for all requests. This takes the form of a REST router in this API.
+- Services
+    - Instantiates all other components (providers, apps, and handlers) and uses dependency injection to set up the API. 
+
+## Next Steps 
+
+I've timeboxed this effort but there are a number of things I would do to follow up on this API:
+- Add authn/authz (JWT or OAuth)
+- Implement some kind of rate limiting (see test script in `scripts/`)
+- More test coverage and better segregation of unit/integration/e2e
+- More thorough configuration and support for `.env`
